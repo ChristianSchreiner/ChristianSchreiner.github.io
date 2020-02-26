@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>IaCStart - Let&#8217;s deploy your first app on AWS</title>
+<title>IaCStart - Overview of the modules</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -435,465 +435,40 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body class="article">
 <div id="header">
-<h1>IaCStart - Let&#8217;s deploy your first app on AWS</h1>
+<h1>IaCStart - Overview of the modules</h1>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
 <div class="paragraph">
-<p>Before we start with our Infrastructure-as-Code game, you will provision a small application manually.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_lets_get_started">Let&#8217;s get started</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Without further ado let&#8217;s simply get started, you&#8217;ll get more instructions on your way.</p>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-Remember to have fun!
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_cloud_environment_on_aws">Cloud Environment on AWS</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Everything you&#8217;ll do during this game is about deploying cloud-based infrastructures. We&#8217;ll use Amazon Web Services which can be accessed using APIs or with a web console.</p>
-</div>
-<div class="sect2">
-<h3 id="_create_a_vpc">Create a VPC</h3>
-<div class="paragraph">
-<p>The VPC is your virtual data center, where all the resources will be located. The VPC boundary is the network address space.</p>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-In your account is a default VPC in each region. For your deployment, we will use a new dedicated VPC which you will create now.
-</td>
-</tr>
-</table>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Open the AWS console <a href="https://console.aws.amazon.com/" class="bare">https://console.aws.amazon.com/</a></p>
-</li>
-<li>
-<p>Log-in with the provided Credentials</p>
-</li>
-<li>
-<p>Verify that you are connected to the <strong>USA East (Northern-Virginia) us-east-1</strong> Region in the top right corner. If not, change to that region.</p>
-</li>
-<li>
-<p>Click on "Create VPC"</p>
-</li>
-<li>
-<p>Provide a name, so that you can identify the VPC during the later use.</p>
-</li>
-<li>
-<p>Use the following CIDR for your VPC 10.4.0.0/20</p>
-</li>
-</ul>
+<p>Module 0 - Build your app on AWS</p>
 </div>
 <div class="paragraph">
-<p>You have now created your first virtual data center (VPC) within AWS with the network 10.4.0.0/20.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_create_a_subnet_within_the_vpc">Create a Subnet within the VPC</h3>
-<div class="paragraph">
-<p>Within the VPC, you need to create Subnets to connect your systems later on.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Select Subnets in the VPC Console and create one subnet</p>
-</li>
-<li>
-<p>Select your newly created VPC from the dropdown menu</p>
-</li>
-<li>
-<p>Enter the following Information in the CIDR field: 10.4.0.0/24</p>
-</li>
-<li>
-<p>Provide a name, so that you can identify the subnet during the later use.</p>
-</li>
-<li>
-<p>After you have created the subnet, change the "auto-assign IP settings" to enable the assignment of public IP addresses. You will find this option in the <strong>Actions</strong> menu on top.</p>
-</li>
-</ul>
+<p><a href="https://christianschreiner.github.io//00_module_aws_handson.html" class="bare">https://christianschreiner.github.io//00_module_aws_handson.html</a></p>
 </div>
 <div class="paragraph">
-<p>You have now created the first network in the data center and all servers in this network get a public IP address, which could be used in the internet.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_internet_gateway_and_routing">Internet Gateway and routing</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>To enable access from the internet to the systems in this subnet you also need to create an internet gateway that needs to be connected to the new VPC.</p>
-</li>
-</ul>
+<p>Module 1 - Let Ansible do the job</p>
 </div>
 <div class="paragraph">
-<p>After you have created the Gateway to the internet, you also need to configure the default route (CIDR 0.0.0.0/0) in the routing table of the subnet to use the gateway.
-* Select the subnet in your VPC console
-* Select the <strong>Routing Table</strong> tab in the window below the subnet list and then on the link of the routing table which starts with a <strong>rb-</strong>
-* Select the <strong>Routes</strong> tab in the new window and there on the button "Edit routes"
-* Add a new routing entry with the destination <strong>0.0.0.0/0</strong> and select your <strong>Internet Gateway</strong> as target</p>
+<p><a href="https://christianschreiner.github.io//01_module_IaC_deployment.html" class="bare">https://christianschreiner.github.io//01_module_IaC_deployment.html</a></p>
 </div>
 <div class="paragraph">
-<p>Now your data center is connected to the internet and all servers with a public IP are reachable from the internet.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_create_the_ssh_key_pair_for_access_to_the_linux_servers">Create the ssh key pair for access to the Linux servers</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>To log-in into newly provisioned servers, you need to provide a public ssh-key during the deployment where you have the private key.</p>
-</li>
-<li>
-<p>This key pair can be created in the AWS console in the EC2 dashboard where you can select "key pairs" and then "Create key pair". The EC2 dashboard can be found in the service menu on top of the AWS console.</p>
-</li>
-<li>
-<p>Provide a name, so that you can identify the key during the later use.</p>
-</li>
-<li>
-<p>Select ppk as file format as this format is important for the later use in the game</p>
-</li>
-<li>
-<p>When you click on "create key pair" the private key file will be downloaded</p>
-</li>
-</ul>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-This private key file will always be needed to access a server on AWS and can&#8217;t be download later. So store the file in a secure place.
-</td>
-</tr>
-</table>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_create_the_ec2_instances_for_web_and_db">Create the EC2 instances for Web and DB</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>Open the EC2 console in the Service menu on top and launch the two server instances with the following specification.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_web_server">Web server:</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>AMI Image: Red Hat Enterprise Linux 8 (HVM), SSD Volume Type</p>
-</li>
-<li>
-<p>Instance Size: t2.micro</p>
-</li>
-<li>
-<p>Instance Configuration: Select your own VPC from the dropdown menu</p>
-</li>
-<li>
-<p>Disk Size: 10GB</p>
-</li>
-<li>
-<p>Tags: Key = Managed  Value = Manual</p>
-</li>
-<li>
-<p>Security Group rules: SSH, HTTP, and HTTPS from any source (0.0.0.0/0)</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_database_server">Database server:</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>AMI Image: Red Hat Enterprise Linux 8 (HVM), SSD Volume Type</p>
-</li>
-<li>
-<p>Instance Size: t2.micro</p>
-</li>
-<li>
-<p>Instance Configuration: Select your own VPC from the dropdown menu</p>
-</li>
-<li>
-<p>Disk Size: 10GB</p>
-</li>
-<li>
-<p>Tags: Key = Managed  Value = Manual</p>
-</li>
-<li>
-<p>Security Group rules: SSH from any source, mongodb (Custom TCP, Port 27017) from source 10.4.0.0/20</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_configure_the_database_server">Configure the database server</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>Connect to the server via ssh</p>
-<div class="ulist">
-<ul>
-<li>
-<p>For macOS</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Open the terminal</p>
-</li>
-<li>
-<p>Change the permission of the downloaded pem file to 400</p>
-</li>
-<li>
-<p>Connect to the public IP of the server with the user ec2-user (ssh -i "path to your pem file" ec2-user@"Public IP of the server")</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>For Windows</p>
-<div class="ulist">
-<ul>
-<li>
-<p>Use putty to connect to the server.</p>
-</li>
-<li>
-<p>Details can be found here:
-<a href="https://docs.aws.amazon.com/de_de/AWSEC2/latest/UserGuide/putty.html" class="bare">https://docs.aws.amazon.com/de_de/AWSEC2/latest/UserGuide/putty.html</a></p>
-</li>
-</ul>
-</div>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>Install MongoDB</p>
-</li>
-</ul>
+<p>Module 2 - Move to good old europe</p>
 </div>
 <div class="paragraph">
-<p>Add the MongoDB repository to the system. To do so, please create a new file <strong>/etc/yum.repos.d/mongodb-org-4.2.repo</strong> and add the following content the file.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>[mongodb-org-4.2]
-name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/4.2/x86_64/
-gpgcheck=1
-enabled=1
-gpgkey=https://www.mongodb.org/static/pgp/server-4.2.asc</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>sudo yum install -y mongodb-org</pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Configure MongoDB to bind to any IP</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>sudo vi /etc/mongod.conf</pre>
-</div>
+<p><a href="https://christianschreiner.github.io//02_module_IaC_move_to_eu.html" class="bare">https://christianschreiner.github.io//02_module_IaC_move_to_eu.html</a></p>
 </div>
 <div class="paragraph">
-<p>Change bindIP to <strong>0.0.0.0</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Start MongoDB</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>sudo systemctl start mongod</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_configure_the_webserver">Configure the webserver</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>Connect to the web server via ssh</p>
-</li>
-</ul>
+<p>Module 3 - Use NetApp CVS to make it fast and reliable</p>
 </div>
 <div class="paragraph">
-<p>To run the web application some packages and configurations are needed.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Install git</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>sudo yum install git</pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Clone repo</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>cd /opt
-sudo git clone https://github.com/iacstart/nodejs_sample.git
-cd nodejs_sample</pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Install nodejs</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>sudo yum install -y gcc-c++ make
-curl -sL https://rpm.nodesource.com/setup_12.x | sudo -E bash -
-sudo yum install -y nodejs</pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Install npm packages</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>sudo npm install express morgan object-assign ejs mongodb</pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Configure Application</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Open the file <strong>/opt/nodejs_sample/server.js</strong> file.
-Change the database server IP address to the private IP address of your database server in the line "mongoHost".</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Start the app</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Test that the app is running from the command line <strong>sudo npm start</strong>
-Open the public URL of the webserver with your local browser to check the web site</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>BONUS</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Ensure that the webserver application is running after with as daemon with an enabled service.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_review_what_you_have_done_so_far">Review what you have done so far.</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p>You have log-in into the AWS console and created a user to work with.</p>
-</li>
-<li>
-<p>You have created the <strong>access key</strong> to access the AWS API and an <strong>ssh key pair</strong> to login into the servers on AWS.</p>
-</li>
-<li>
-<p>You have created your first VPC, Subnet, and virtual servers on AWS.</p>
-</li>
-<li>
-<p>You&#8217;ve installed and configured the web service and database on the servers.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_clean_up_aws">Clean up AWS</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>In the next sprints of the game, you will deploy the resources with Ansible. Therefore please clean up your AWS account.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Open the EC2 console and select both running instances and set the <strong>Instance state</strong> to <strong>Terminate</strong> and wait until both instances are terminated.</p>
-</li>
-<li>
-<p>Open the VPC console and select your VPC and delete the VPC</p>
-</li>
-</ul>
-</div>
-</div>
+<p><a href="https://christianschreiner.github.io//03_module_IaC_use_netapp.html" class="bare">https://christianschreiner.github.io//03_module_IaC_use_netapp.html</a></p>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-02-25 15:24:48 +0100
+Last updated 2020-02-26 07:29:22 +0100
 </div>
 </div>
 </body>
